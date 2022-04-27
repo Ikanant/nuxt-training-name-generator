@@ -76,27 +76,16 @@
           </button>
         </div>
       </div>
+      <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>
+    {{ activeNames }}
   </div>
 </template>
 
 // Use setup flag to start getting started with the composition api.
 // Lang is a simple way to we start using typescript in our script.
 <script setup lang="ts">
-enum Gender {
-  GIRL = "Girl",
-  BOY = "Boy",
-  UNISEX = "Unisex",
-}
-enum Popularity {
-  TRENDY = "Trendy",
-  UNIQUE = "Unique",
-}
-enum Length {
-  SHORT = "Short",
-  LONG = "Long",
-  ALL = "All",
-}
+import {Gender, Popularity, Length, names} from "@/data";
 
 // Create interface for options object
 interface OptionState {
@@ -114,13 +103,28 @@ const options: OptionState = reactive<OptionState>({
   popularity: Popularity.TRENDY,
   length: Length.ALL,
 });
+
+
+// NOTICE: Instead of being reactive, just set it to ref since this should be a simple array
+let activeNames = ref<string[]>([])
+
+const computeSelectedNames = () => {
+  var filteredNames = names.filter(f => {
+    return f.gender === options.gender && f.popularity === options.popularity;
+  }).filter(l => {
+    if (options.length === Length.ALL) return true;
+    return l.length === options.length;
+  });
+
+  activeNames.value = filteredNames.map(m => m.name);
+}
 </script>
 
 
 <style scoped>
 .container {
   font-family: Arial, Arial, Helvetica, sans-serif;
-  color: rgb(27, 60, 138);
+  color: teal;
   max-width: 50rem;
   margin: 0 auto;
   text-align: center;
@@ -146,7 +150,7 @@ h1 {
 
 .option {
   background-color: white;
-  outline: 0.15rem solid red;
+  outline: 0.15rem solid teal;
   border: none;
   padding: 0.75rem;
   width: 12rem;
@@ -165,7 +169,17 @@ h1 {
 }
 
 .option-active {
-  background-color: red;
+  background-color:teal;
   color: white;
+}
+
+.primary {
+  background-color: teal;
+  color: white;
+  border-radius: 6.5rem;
+  border: none;
+  padding: 0.75rem 4rem;
+  font-size: 1rem;
+  margin-top: 1rem;
 }
 </style>
