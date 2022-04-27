@@ -10,19 +10,19 @@
         <div class="options-buttons">
           <button
             class="option option-left"
-            :class="options.gender === 'Boy' && 'option-active'"
+            :class="options.gender === Gender.BOY && 'option-active'"
           >
             Boy
           </button>
           <button
             class="option"
-            :class="options.gender === 'Unisex' && 'option-active'"
+            :class="options.gender === Gender.UNISEX && 'option-active'"
           >
             Unisex
           </button>
           <button
             class="option option-right"
-            :class="options.gender === 'Girl' && 'option-active'"
+            :class="options.gender === Gender.GIRL && 'option-active'"
           >
             Girl
           </button>
@@ -33,13 +33,13 @@
         <div class="options-buttons">
           <button
             class="option option-left"
-            :class="options.popularity === 'Trendy' && 'option-active'"
+            :class="options.popularity === Popularity.TRENDY && 'option-active'"
           >
             Trendy
           </button>
           <button
             class="option option-right"
-            :class="options.popularity === 'Unique' && 'option-active'"
+            :class="options.popularity === Popularity.UNIQUE && 'option-active'"
           >
             Unique
           </button>
@@ -50,19 +50,19 @@
         <div class="options-buttons">
           <button
             class="option option-left"
-            :class="options.length === 'Long' && 'option-active'"
+            :class="options.length === Length.LONG && 'option-active'"
           >
             Long
           </button>
           <button
             class="option"
-            :class="options.length === 'All' && 'option-active'"
+            :class="options.length === Length.ALL && 'option-active'"
           >
             All
           </button>
           <button
             class="option option-right"
-            :class="options.length === 'Short' && 'option-active'"
+            :class="options.length === Length.SHORT && 'option-active'"
           >
             Short
           </button>
@@ -72,15 +72,39 @@
   </div>
 </template>
 
-// use setup flag to start getting started with the composition api 
-<script setup>
+// Use setup flag to start getting started with the composition api.
+// Lang is a simple way to we start using typescript in our script.
+<script setup lang="ts">
+enum Gender {
+  GIRL = "Girl",
+  BOY = "Boy",
+  UNISEX = "Unisex",
+}
+enum Popularity {
+  TRENDY = "Trendy",
+  UNIQUE = "Unique",
+}
+enum Length {
+  SHORT = "Short",
+  LONG = "Long",
+  ALL = "All",
+}
+
+// Create interface for options object
+interface OptionState {
+  gender: Gender;
+  popularity: Popularity;
+  length: Length;
+}
+
 // NOTICE: Did NOT import reactive. NUXT is going to take care of the auto-importation
 // NOTICE x2: With SETUP flag in the script we do NOT need to export anything in order to use it in template.
 //            We can now use options int he html section of this code.
-const options = reactive({
-  gender: "Girl",
-  popularity: "Unique",
-  length: "Long",
+// NOTICE x3: I can use the colon to specify options type OR I can use the <> after the reactive api tool
+const options: OptionState = reactive<OptionState>({
+  gender: Gender.GIRL,
+  popularity: Popularity.TRENDY,
+  length: Length.ALL,
 });
 </script>
 
