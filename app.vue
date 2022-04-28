@@ -5,77 +5,9 @@
     <p>Please select your options and click the "FIND NAMES" button bellow</p>
 
     <div class="options-container">
-      <div class="option-container">
-        <h4>1) Choose a gender:</h4>
-        <div class="options-buttons">
-          <button
-            class="option option-left"
-            :class="options.gender === Gender.BOY && 'option-active'"
-            @click="options.gender = Gender.BOY"
-          >
-            Boy
-          </button>
-          <button
-            class="option"
-            :class="options.gender === Gender.UNISEX && 'option-active'"
-            @click="options.gender = Gender.UNISEX"
-          >
-            Unisex
-          </button>
-          <button
-            class="option option-right"
-            :class="options.gender === Gender.GIRL && 'option-active'"
-            @click="options.gender = Gender.GIRL"
-          >
-            Girl
-          </button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>2) Choose name's popularity:</h4>
-        <div class="options-buttons">
-          <button
-            class="option option-left"
-            :class="options.popularity === Popularity.TRENDY && 'option-active'"
-            @click="options.popularity = Popularity.TRENDY"
-          >
-            Trendy
-          </button>
-          <button
-            class="option option-right"
-            :class="options.popularity === Popularity.UNIQUE && 'option-active'"
-            @click="options.popularity = Popularity.UNIQUE"
-          >
-            Unique
-          </button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>3) Choose the name's length:</h4>
-        <div class="options-buttons">
-          <button
-            class="option option-left"
-            :class="options.length === Length.LONG && 'option-active'"
-            @click="options.length = Length.LONG"
-          >
-            Long
-          </button>
-          <button
-            class="option"
-            :class="options.length === Length.ALL && 'option-active'"
-            @click="options.length = Length.ALL"
-          >
-            All
-          </button>
-          <button
-            class="option option-right"
-            :class="options.length === Length.SHORT && 'option-active'"
-            @click="options.length = Length.SHORT"
-          >
-            Short
-          </button>
-        </div>
-      </div>
+      <!-- Because we are using NUXT, we do NOT need to import the Option component -->
+      <Option v-for="option in optionsArray" :key="option.title" :option="option" :options="options"/>
+
       <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>
     <div class="card-container">
@@ -87,10 +19,10 @@
   </div>
 </template>
 
-// Use setup flag to start getting started with the composition api.
-// Lang is a simple way to we start using typescript in our script.
+// Use setup flag to start getting started with the composition api. // Lang is
+a simple way to we start using typescript in our script.
 <script setup lang="ts">
-import {Gender, Popularity, Length, names} from "@/data";
+import { Gender, Popularity, Length, names } from "@/data";
 
 // Create interface for options object
 interface OptionState {
@@ -109,22 +41,40 @@ const options: OptionState = reactive<OptionState>({
   length: Length.ALL,
 });
 
+const optionsArray = [
+  {
+    title: "1) Choose a gender",
+    category: "gender",
+    buttons: [Gender.GIRL, Gender.BOY, Gender.UNISEX],
+  },
+  {
+    title: "2) Choose the name's popularity",
+    category: "popularity",
+    buttons: [Popularity.TRENDY, Popularity.UNIQUE],
+  },
+  {
+    title: "3) Choose the name's length",
+    category: "length",
+    buttons: [Length.SHORT, Length.LONG, Length.ALL],
+  },
+];
 
 // NOTICE: Instead of being reactive, just set it to ref since this should be a simple array
-let activeNames = ref<string[]>([])
+let activeNames = ref<string[]>([]);
 
 const computeSelectedNames = () => {
-  var filteredNames = names.filter(f => {
-    return f.gender === options.gender && f.popularity === options.popularity;
-  }).filter(l => {
-    if (options.length === Length.ALL) return true;
-    return l.length === options.length;
-  });
+  var filteredNames = names
+    .filter((f) => {
+      return f.gender === options.gender && f.popularity === options.popularity;
+    })
+    .filter((l) => {
+      if (options.length === Length.ALL) return true;
+      return l.length === options.length;
+    });
 
-  activeNames.value = filteredNames.map(m => m.name);
-}
+  activeNames.value = filteredNames.map((m) => m.name);
+};
 </script>
-
 
 <style scoped>
 .container {
@@ -174,7 +124,7 @@ h1 {
 }
 
 .option-active {
-  background-color:teal;
+  background-color: teal;
   color: white;
 }
 
