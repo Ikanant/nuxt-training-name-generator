@@ -6,7 +6,12 @@
 
     <div class="options-container">
       <!-- Because we are using NUXT, we do NOT need to import the Option component -->
-      <Option v-for="option in optionsArray" :key="option.title" :option="option" :options="options"/>
+      <Option
+        v-for="option in optionsArray"
+        :key="option.title"
+        :option="option"
+        :options="options"
+      />
 
       <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>

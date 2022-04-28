@@ -33,20 +33,19 @@ interface OptionProps {
 const props = defineProps<OptionProps>();
 
 const computeButtonClasses = (button, index) => {
-    const classNames:string[] = [];
-    if (props.options[props.option.category] === button) {
-        classNames.push("option-active");
-    }
+  const classNames: string[] = [];
+  if (props.options[props.option.category] === button) {
+    classNames.push("option-active");
+  }
 
-    if (index == 0) {
-        classNames.push("option-left");
-    }
-    else if (index === props.option.buttons.length-1) {
-        classNames.push("option-right");
-    }
+  if (index == 0) {
+    classNames.push("option-left");
+  } else if (index === props.option.buttons.length - 1) {
+    classNames.push("option-right");
+  }
 
-    return classNames.join(" ");
-}
+  return classNames.join(" ");
+};
 </script>
 
 <style scoped>
