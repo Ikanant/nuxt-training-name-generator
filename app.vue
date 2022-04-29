@@ -16,10 +16,15 @@
       <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>
     <div class="card-container">
-
       <!-- Thing to not is that the Name component is inside a CARD folder. So here, when using NUXT we need to reference the name as:
       <DirectoryName><ComponentName> -->
-      <CardName v-for="name in activeNames" :key="name" :name="name" />
+      <CardName
+        v-for="(name, index) in activeNames"
+        :key="name"
+        :name="name"
+        :index="index"
+        @removeNameEvent="removeNameFunction(index)"
+      />
     </div>
   </div>
 </template>
@@ -78,6 +83,10 @@ const computeSelectedNames = () => {
     });
 
   activeNames.value = filteredNames.map((m) => m.name);
+};
+
+const removeNameFunction = (index: number) => {
+  activeNames.value.splice(index, 1);
 };
 </script>
 

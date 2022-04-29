@@ -1,16 +1,22 @@
 <template>
   <div class="card">
     <label>{{ name }}</label>
-    <p>X</p>
+    <p @click="emitRemoveNameEvent" >X</p>
   </div>
 </template>
 
 <script setup lang="ts">
 interface NameProps {
   name: string;
+  index: number;
 }
 
 const props = defineProps<NameProps>();
+const emit = defineEmits(["removeNameEvent"]);
+
+const  emitRemoveNameEvent = () => {
+    emit("removeNameEvent", props.index);
+}
 </script>
 
 <style scoped>
